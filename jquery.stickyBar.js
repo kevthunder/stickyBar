@@ -72,7 +72,7 @@
         var divTargetBase = (settings.divBase) ? divTargetBase = settings.divBase : (divBounds? divTargetBase=divBounds : divTargetBase = divTarget);
 		
         var stickyBarTop;
-		var curTop = $(divTarget).offset().top;
+		var curTop;
 		var offsetParent = $(divTarget).offsetParent();
         $(window).scroll(function(){
 			if(mode == MODE_DISABLED){
@@ -80,6 +80,7 @@
 			}
 			if (mode == MODE_UNWRAPPED){
 				stickyBarTop = $(divTargetBase).offset().top;
+				curTop = $(divTarget).offset().top;
 			}
 			var paddingTop = 0;
 			var paddingBottom = 0;
@@ -142,13 +143,12 @@
 					$(divTarget).parent().css({
 						'position'    : "fixed",
 						'top'         : -moveOffset,
-						'width'       : "100%",
 						'z-index'     : "9999"
 					});
 					mode = MODE_FIXED;
 				//apply position displacemetn if asked by behaviors
 				}else if(!fixe && moveOffset > 0 && mode != MODE_MOVED){
-					if(divBounds) moveOffset += (divBounds.offset().top - offsetParent.offset().top);
+					if(divBounds) moveOffset += ($(divBounds).offset().top - offsetParent.offset().top);
 					$(divTarget).parent().css({
 						'position'    : "absolute",
 						'top'         : moveOffset,
